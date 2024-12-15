@@ -1,34 +1,75 @@
 import { useState } from 'react'
 
-import './App.css'
-import Loginpage from './componet/Loginpage'
+
+import Loginpage from './componet/auth/Loginpage'
 import Registerpage from './componet/Registerpage'
-import Dasboard from './componet/Dasboard'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dasboard from './componet/pages/Dasboard'
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import Home from './componet/pages/Home'
+import PrivateRoute from './componet/Route/PrivateRoute'
+import Header from './componet/pages/Header'
+import Footer from './componet/pages/Footer'
+import Contect from './componet/pages/Contect'
+import Logout from './componet/auth/Logout';
 
 function App() {
-  //const [count, setCount] = useState(0)
+  const location = useLocation();
+  // Paths without Header and Footer
+  const hideHeaderFooter = ["/login", "/register"];
+ 
+
 
   return (
     <>
-    <BrowserRouter> 
-    <Routes>
-        <Route path="/" element={<Registerpage />} />
-        <Route path="/login" element={<Loginpage />} />
-        <Route path="/dashboard" element={<Dasboard />} />
-      </Routes>
-    
-    </BrowserRouter>
-    
-    
-    {/* <div>
+    {/* Show Header only if the current path is not in `hideHeaderFooter` */}
+    {!hideHeaderFooter.includes(location.pathname) && <Header />}
 
-      <h1>login and signup</h1>
-      <Registerpage/>
-      <Loginpage/>
-      <Dasboard/>
-    </div> */}
-     
+{/* Routes */}
+<Routes>
+  {/* Login and Register are accessible to everyone */}
+  
+  
+  <Route path="/login" element={<Loginpage />} />
+  <Route path="/register" element={<Registerpage />} />
+  
+  {/* All other routes are protected */}
+  <Route
+    path="/"
+    element={
+      <PrivateRoute>
+        <Home />
+      </PrivateRoute>
+    }
+  />
+  <Route
+    path="/dashboard"
+    element={
+      <PrivateRoute>
+        <Dasboard />
+      </PrivateRoute>
+    }
+  />
+  <Route
+    path="/contact"
+    element={
+      <PrivateRoute>
+        <Contect />
+      </PrivateRoute>
+    }
+  />
+
+<Route
+    path="/logout"
+    element={
+      <PrivateRoute>
+        <Logout />
+      </PrivateRoute>
+    }
+  />
+</Routes>
+
+{/* Show Footer only if the current path is not in `hideHeaderFooter` */}
+{!hideHeaderFooter.includes(location.pathname) && <Footer />}
     </>
   )
 }

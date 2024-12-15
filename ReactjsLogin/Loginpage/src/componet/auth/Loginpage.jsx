@@ -22,15 +22,16 @@ function Loginpage() {
 
       //console.log(response.data.token);
       // Redirect to dashboard
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError("Invalid credentials");
     }
   };
 
   return (
-    <div className="flex ">
-      
+    <>
+    <div className="   m-16  ">
+    <div className="">
     <div className="bg-purple-300 p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
       <form onSubmit={handleSubmit}>
@@ -60,10 +61,16 @@ function Loginpage() {
         </button>
       </form>
       {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-      <h2> if you are not register <Link to="/" >Register</Link></h2>
+      <h2 className="text-center mt-4">
+        If you are not registered, <Link to="/register" className="text-blue-500">Register</Link>
+      </h2>
     </div>
-    
   </div>
+  </div>
+
+
+
+  </>
   
   )
 }
